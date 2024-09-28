@@ -59,6 +59,9 @@ lub
 ./gra -p
 ```
 
+> [!WARNING]
+> - Przed pierwszym uruchomieniem porównaj sumy MD5 instalowanego pliku i MD5 z pliku w repozytoium!
+
 ### Instalacja ręczna
 
 Aby zainstalować grę ręcznie w przypadku niepowodzenia instalacji automatycznej, należy wykonać następujące kroki:
