@@ -86,7 +86,7 @@ tar xvf pierwiastki.tar.xz
 ```
 # Eksportowanie wybranej ścieżki
 # W miejcu '/path/to/.shellrc' należy wpisać ścieżkę do pliku konfiguracyjnego shella
-echo "/path/to/directory/" >> /path/to/.shellrc
+echo "export PIERWIASTKI=\"/path/to/directory/\"" >> /path/to/.shellrc
 ```
 ```
 # Stosowanie zmian w pliku konfiguracyjnym:
