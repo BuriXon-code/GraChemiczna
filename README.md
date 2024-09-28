@@ -60,6 +60,45 @@ lub
 ./gra2 -p
 ```
 
+### Instalacja ręczna
+
+Aby zainstalować grę ręcznie w przypadku niepowodzenia instalacji automatycznej, należy wykonać następujące kroki:
+
+```
+# Pobieranie plików z github
+git clone https://github.com/BuriXon-code/GraChemiczna
+cd GraMatematyczna
+chmod +x gra*
+```
+```
+# Tworzenie katalogu dla plików z pierwiastkami:
+# W miejcu '/path/to/directory/' należy wpisać wybraną przez siebie ścieżkę, w której znajdą się pliki z listami pierwiastków
+mkdir /path/to/directory/ && cd /path/to/directory/
+```
+```
+# Pobieranie plików z listami pierwiastków:
+wget https://burixon.com.pl/github/GraChemiczna/pierwiastki.tar.xz
+```
+```
+# Rozpakowywanie pierwiastków:
+tar xvf pierwiastki.tar.xz
+```
+```
+# Eksportowanie wybranej ścieżki
+# W miejcu '/path/to/.shellrc' należy wpisać ścieżkę do pliku konfiguracyjnego shella
+echo "/path/to/directory/" >> /path/to/.shellrc
+```
+```
+# Stosowanie zmian w pliku konfiguracyjnym:
+source /path/to/.shellrc
+```
+
+Gotowe :) Gra została zainstalowana. Teraz można ją uruchomić:
+
+```
+./gra
+```
+
 ## Możliwość zatrzymania skryptu - hasło administratora (rodzica) :
 ### Gra została zabezpieczona przed próbą zatrzymania sygnałem SIGINT (CTRL+C). Aby jednak ją zatrzymać, należy posiadać hasło administratora.
 ### Hasło :
