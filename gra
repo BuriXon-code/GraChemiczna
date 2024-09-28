@@ -1,0 +1,222 @@
+#!/bin/bash
+
+CZERWONY='\033[38;2;139;0;0m'
+JASNOCZERWONY='\033[38;2;255;80;65m'
+POMARANCZOWY='\033[38;2;255;165;0m'
+ZOLTY='\033[38;2;255;255;0m'
+JASNOZIELONY='\033[38;2;144;238;144m'
+ZIELONY='\033[38;2;0;255;0m'
+CIEMNOZIELONY='\033[38;2;0;128;0m'
+JASNONIEBIESKI='\033[38;2;160;200;230m'
+NIEBIESKI='\033[38;2;90;100;230m'
+TURKUSOWY='\033[38;2;64;224;208m'
+BG_TURKUSOWY='\033[38;2;255;255;255;48;2;50;175;220m'
+ROZOWY='\033[38;2;255;0;255m'
+RESET='\e[0m'
+
+echo -en "\e[?25l"
+
+show_help() {
+	echo -e "\n${ROZOWY}#=====================================#${RESET}"
+	echo -e "${ROZOWY}  Gra chemiczna - odgaduj pierwiastki${RESET}"
+	echo -e "${ROZOWY}#=====================================#${RESET}"
+	echo -e "\n${CIEMNONIEBIESKI}> ${TURKUSOWY}Administrator gry (rodzic) w pierwszej chwili\npo uruchomieniu gry, wybiera zakres odgadywanych\nw trakcie gry pierwiastków:"
+	echo -e "\n${JASNOCZERWONY}Aktynowce${RESET} - pierwiaski z grupy aktynowców."
+	echo -e "\n${POMARANCZOWY}Gazy szlachetne${RESET} - pierwiaski z grupy gazów szlachetnych."
+	echo -e "\n${ZOLTY}Lantanowce${RESET} - pierwiaski z grupy lantanowców."
+	echo -e "\n${JASNOZIELONY}Metale${RESET} - pierwiaski z grupy metali."
+	echo -e "\n${TURKUSOWY}Niemetale${RESET} - pierwiaski z grupy niemetali."
+	echo -e "\n${NIEBIESKI}Półmetale${RESET} - pierwiaski z grupy półmetali."
+	echo -e "\n${ROZOWY}Mix${RESET} - pierwiaski z wszystkich grup."
+	echo -e "\n${CIEMNONIEBIESKI}> ${TURKUSOWY}W kolejnym kroku Administrator (rodzic) wybiera docelową\nliczbę punktów, które musi zdobyć gracz:"
+	echo -e "\n${JASNOZIELONY}20 punktów${RESET} - zadaniem gracza jest zdobyć 20 punktów."
+	echo -e "\n${ZOLTY}50 punktów${RESET} - zadaniem gracza jest zdobyć 50 punktów."
+	echo -e "\n${POMARANCZOWY}100 punktów${RESET} - zadaniem gracza jest zdobyć 100 punktów."
+	echo -e "\n${CZERWONY}250 punktów${RESET} - zadaniem gracza jest zdobyć 250 punktów."
+	echo -e "\n${ROZOWY}Inna${RESET} - Administrator (rodzic) ręcznie wybiera,\nile punktów należy zdobyć, aby ukończyć grę."
+	echo -e "\n${CIEMNONIEBIESKI}> ${TURKUSOWY}Aby grać, należy odpowiedzieć na pytanie po jego\nwygenerowaniu, wpisując odpowiedź."
+	echo -e "\n${CIEMNONIEBIESKI}> ${TURKUSOWY}Gracz roczpoczyna grę posiadając 10 punktów.\nCelem jego gry jest zdobycie odpowiedniej wybranej\nprzez Administratora (rodzica) liczby punktów."
+	echo -e "\n${RESET}Po udzieleniu poprawnej odpowiedzi, gracz otrzyma\nnależny ${JASNOZIELONY}+1 punkt${RESET} do swojej puli."
+	echo -e "\n${RESET}Po udzieleniu błędnej odpowiedzi, gracz straci\nodpowiednio ${JASNOCZERWONY}-1 punkt${RESET} ze swojej puli."
+	echo -e "\n${RESET}Za brak jakiejkolwiek odpowiedzi, gracz straci\nodpowiednio ${JASNOCZERWONY}-1 punkt${RESET} ze swojej puli."
+	echo -e "\n${RESET}Za próbę przerwania gry (SIGINT), gracz straci\nodpowiednio ${JASNOCZERWONY}-1 punkt${RESET} ze swojej puli."
+	echo -e "\n${CIEMNONIEBIESKI}> ${TURKUSOWY}Kiedy gracz osiągnie zadaną ilość punktów,\nwtedy gra zakończy się ${ZIELONY}wygraną${TURKUSOWY}."
+	echo -e "${TURKUSOWY}Jeśli jednak punkty skończą się, wtedy gra\nzakończy się ${CZERWONY}przegraną${TURKUSOWY} gracza."
+	echo -e "\n${CIEMNONIEBIESKI}> ${TURKUSOWY}Czas gry nie jest ważny. Liczy się jedynie\npoprawność udzielanych odpowiedzi.\n  ${JASNOZIELONY}MIŁEJ GRY :)"
+	echo -e "\n\n${CZERWONY}> ${JASNOCZERWONY}Grę można zatrzymać jedynie używając\nspecjalnego ${FIOLETOWY}HASŁA${JASNOCZERWONY}, które powinien\nznać Administrator (rodzic) gry."
+	echo -e "Specjalne ${FIOLETOWY}HASŁO${JASNOCZERWONY} należy wpisać w miejscu\noczekującym odpowiedzi."
+
+echo -en "\e[?25h"
+}
+
+for arg in "$@"; do
+	case $arg in
+		-h|--help|-p|--pomoc)
+			clear
+			show_help
+			exit 0
+		;;
+		*)
+			echo -e "\n${CZERWONY}Nieznana opcja: $arg${RESET}"
+			show_help
+			exit 1
+		;;
+	esac
+done
+
+handle_sigint() {
+	echo -e "\n${CZERWONY}Próba przerwania gry! -1 punkt!${RESET}"
+	((score > 0)) && ((score--))
+	sleep 0.7
+}
+
+display_victory_message() {
+	clear
+	echo -e "\n${JASNOZIELONY}#=============================================#${RESET}"
+	echo -e "${ZIELONY}Gratulacje! Osiągnąłeś wymaganą liczbę punktów.${RESET}"
+	echo -e "${JASNOZIELONY}#=============================================#${RESET}"
+	echo -e "\n${CIEMNOZIELONY}Teraz zapytaj rodzica o nagrodę :)${RESET}"
+	exit 0
+}
+
+display_loss_message() {
+	clear
+	echo -e "\n${JASNOCZERWONY}#=============================================#${RESET}"
+	echo -e "${CZERWONY}     Przegrałeś! Skończyły Ci się punkty.${RESET}"
+	echo -e "${JASNOCZERWONY}#=============================================#${RESET}"
+	echo -en "\e[?25h"
+	exit 1
+}
+
+display_banner() {
+	local banner="Punkty: $score | Pozostało: $((points_needed - score))"
+	local width=$(tput cols)
+	echo -e "\n${BG_TURKUSOWY} $banner      ${RESET} \n" | awk -v width="$width" '{printf "%-*s\n", width, $0}'
+}
+
+display_rainbow_message() {
+	clear
+	echo -e "\n${TURKUSOWY}#=================================#"
+	local message="Gra przerwana przez administratora!"
+        local colors=(
+                "\033[38;2;255;0;0m"
+                "\033[38;2;255;165;0m"
+                "\033[38;2;255;255;0m"
+                "\033[38;2;0;255;0m"
+                "\033[38;2;0;255;255m"
+                "\033[38;2;50;110;255m"
+                "\033[38;2;255;0;255m"
+        )
+
+        local length=${#message}
+        local color_count=${#colors[@]}
+
+        for ((i = 0; i < length; i++)); do
+                local color=${colors[$((i % color_count))]}
+                printf "${color}%b${RESET}" "${message:$i:1}"
+        done
+        echo -e "${TURKUSOWY}\n#=================================#"
+        echo
+}
+
+ask_question() {
+	local element protony
+	element_protony=$(shuf -n 1 "$category_file") # Losowanie z pliku
+	element=$(echo "$element_protony" | awk '{print $1}')
+	protony=$(echo "$element_protony" | awk '{print $2}')
+
+	if [ $((RANDOM % 2)) -eq 0 ]; then
+		echo -e "${TURKUSOWY}Ile protonów ma pierwiastek $element?${RESET}"
+		read -r response
+		if [ "$response" == "admin" ]; then
+			clear
+			echo -en "\e[?25h"
+			display_rainbow_message
+			exit 0
+		fi
+		if [ "$response" == "$protony" ]; then
+			echo -e "${JASNOZIELONY}+1 punkt!${RESET}"
+			((score++))
+			sleep 0.7
+		else
+			echo -e "${JASNOCZERWONY}Zła odpowiedź! -1 punkt!${RESET}"
+			((score--))
+			sleep 0.7
+		fi
+	else
+		echo -e "${TURKUSOWY}Jaki pierwiastek ma $protony protonów?${RESET}"
+		read -r response
+		if [ "${response,,}" == "${element,,}" ]; then
+			echo -e "${JASNOZIELONY}+1 punkt!${RESET}"
+			((score++))
+			sleep 0.7
+		else
+			echo -e "${JASNOCZERWONY}Zła odpowiedź! -1 punkt!${RESET}"
+			((score--))
+			sleep 0.7
+		fi
+	fi
+}
+
+clear
+echo -e "\n${JASNONIEBIESKI}Wybierz kategorię pierwiastków:${RESET}\n"
+echo -e "${JASNOCZERWONY}1. Aktynowce${RESET}"
+echo -e "${POMARANCZOWY}2. Gazy szlachetne${RESET}"
+echo -e "${ZOLTY}3. Lantanowce${RESET}"
+echo -e "${JASNOZIELONY}4. Metale${RESET}"
+echo -e "${TURKUSOWY}5. Niemetale${RESET}"
+echo -e "${NIEBIESKI}6. Półmetale${RESET}"
+echo -e "${ROZOWY}7. Mix${RESET}"
+echo -e "\n${JASNONIEBIESKI}Twój wybór:${TURKUSOWY} \c"
+read -r category_choice
+clear
+
+case $category_choice in
+	1) category_file="$PIERWIASTKI/aktynowce" ;;
+	2) category_file="${PIERWIASTKI}/gazyszlachetne" ;;
+	3) category_file="${PIERWIASTKI}/lantanowce" ;;
+	4) category_file="${PIERWIASTKI}/metale" ;;
+	5) category_file="${PIERWIASTKI}/niemetale" ;;
+	6) category_file="${PIERWIASTKI}/polmetale" ;;
+	7) category_file="${PIERWIASTKI}/mix" ;;
+	*) echo -e "${CZERWONY}Nieprawidłowy wybór kategorii!${RESET}"; exit 1 ;;
+esac
+
+clear
+echo -e "\n${JASNONIEBIESKI}Wybierz liczbę punktów do zdobycia:${RESET}"
+echo -e "${JASNOZIELONY}1. 20${RESET}"
+echo -e "${ZOLTY}2. 50${RESET}"
+echo -e "${POMARANCZOWY}3. 100${RESET}"
+echo -e "${CZERWONY}4. 250${RESET}"
+echo -e "${ROZOWY}5. Inna (własna)${RESET}"
+echo -e "\n${JASNONIEBIESKI}Twój wybór:${TURKUSOWY} \c"
+read -r points_choice
+
+case $points_choice in
+	1) points_needed=20 ;;
+	2) points_needed=50 ;;
+	3) points_needed=100 ;;
+	4) points_needed=250 ;;
+	5)
+		echo -e "\n${JASNONIEBIESKI}Podaj liczbę punktów:${RESET}"
+		read -r points_needed
+	;;
+	*) points_needed=20 ;;
+esac
+
+score=10
+trap handle_sigint SIGINT
+
+while [ $score -gt 0 ]; do
+	clear
+	display_banner
+	ask_question
+
+	if [ $score -ge $points_needed ]; then
+		display_victory_message
+	fi
+
+	if [ $score -le 0 ]; then
+		display_loss_message
+	fi
+done
