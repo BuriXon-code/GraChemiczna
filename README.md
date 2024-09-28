@@ -56,7 +56,7 @@ oraz
 ```
 lub 
 ```
-./gra2 -p
+./gra -p
 ```
 
 ### Instalacja ręczna
