@@ -16,7 +16,6 @@ Gra nie zawiera żadnych poleceń poza funkcjami bash oraz wbudowanymi komendami
 
 > [!WARNING]
 > - Gra nie będzie działała prawidłowo na systemach z busybox (wymagane coreutils)!
-> [!WARNING]
 > - Instalator gry potrzebuje skonfigurowanego pakietu 'wget' oraz 'tar'! 
 
 ## Instalacja i uruchomienie ...
