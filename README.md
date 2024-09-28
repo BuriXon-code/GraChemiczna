@@ -31,7 +31,7 @@ Dla ułatwienia instalacji napisałem skrypt instalatora wraz z instrukcjami po 
 
 ```
 git clone https://github.com/BuriXon-code/GraChemiczna
-cd GraMatematyczna
+cd GraChemiczna
 chmod +x *
 ./install.sh
 ```
@@ -67,7 +67,7 @@ Aby zainstalować grę ręcznie w przypadku niepowodzenia instalacji automatyczn
 ```
 # Pobieranie plików z github
 git clone https://github.com/BuriXon-code/GraChemiczna
-cd GraMatematyczna
+cd GraChemiczna
 chmod +x gra*
 ```
 ```
