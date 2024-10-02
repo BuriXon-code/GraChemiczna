@@ -120,7 +120,7 @@ check_packages() {
 
 check_directories() {
 	{
-		DIRECTORIES=("/data/data/com.termux/home" "/data/data/com.termux/home/.wisielec" "/data/data/com.termux/files/usr/dict" "$HOME" "$HOME/.wisielec" "/usr/dict" "/usr/local/dict" "/home/$USER" "$USER")
+		DIRECTORIES=("/data/data/com.termux/home" "/data/data/com.termux/files/usr/dict" "$HOME" "/usr/dict" "/usr/local/dict" "/home/$USER" "$USER")
 		sleep 1	
 		for DIR in "${DIRECTORIES[@]}"; do
 		if [ -d "$DIR" ] && [ -w "$DIR" ]; then
@@ -262,7 +262,7 @@ install_script() {
 
 #echo -e " - Katalog docelowy: $( cat $TEMP | head -n1 )"
 #echo -e " - Plik konfiguracyjny shella: $( cat $TEMP | tail -n1 )"
-echo -e "\n${GREEN}Instalacja zakonczona pomyslnie!\n${RESET}Aby uruchomić gre, wpisz ${GREEN}\"bash wisielec\"${RESET} lub ${GREEN}\"./wisielec\"${RESET}."
+echo -e "\n${GREEN}Instalacja zakonczona pomyslnie!\n${RESET}Aby uruchomić gre, wpisz ${GREEN}\"bash gra\"${RESET} lub ${GREEN}\"./gra\"${RESET}."
 echo -e "\n\e[1;6;31mPrzed uruchomieniem gry sprawdz sumy kontrolne!${RESET}"
 echo -e "${YELLOW}Przed pierwszym uruchomieniem zrestartuj shell.${RESET}"
 sleep 3
