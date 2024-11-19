@@ -79,7 +79,7 @@ mkdir /path/to/directory/ && cd /path/to/directory/
 ```
 ```
 # Pobieranie plików z listami pierwiastków:
-wget https://burixon.com.pl/github/GraChemiczna/pierwiastki.tar.xz
+wget https://burixon.com.pl/pliki/pierwiastki.tar.xz
 ```
 ```
 # Rozpakowywanie pierwiastków:
