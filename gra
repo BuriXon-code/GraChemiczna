@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Chemistry game made by BuriXon-code (c) 2025
+
 CZERWONY='\033[38;2;139;0;0m'
 JASNOCZERWONY='\033[38;2;255;80;65m'
 POMARANCZOWY='\033[38;2;255;165;0m'
