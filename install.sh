@@ -197,7 +197,7 @@ check_shell() {
 
 download_file() {
 	{
-		FILE_URL="https://burixon.com.pl/pliki/pierwiastki.tar.xz"
+		FILE_URL="https://burixon.com.pl/files/pierwiastki.tar.xz"
 		TARGET_FILE="pierwiastki.tar.xz"
 		sleep 0.5
 		wget -q "$FILE_URL" -O "$TARGET_FILE" && return 0 || return 1
